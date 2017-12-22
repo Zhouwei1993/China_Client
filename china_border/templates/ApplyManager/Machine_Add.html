@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>申报添加</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+    <style>
+    .booth {
+      background:#ccc;
+      border: 10px solid #ddd;
+      margin: 0 auto;
+    }
+    </style>
+</head>
+<body>
+<div class="admin-main" style="width: 60%;float: left;">
+    <form id="dataform" class="layui-form" method="post" action="" enctype="multipart/form-data">
+        <input name="ewm" id="ewm" value="" hidden>
+        <input name="is_bhc" id="is_bhc" value="" hidden>
+        <input name="cardno_pic" id="cardno_pic" value="" hidden>
+        <input name="vcode" id="vcode" value="{{ vcode }}" hidden>
+        <input name="machine_add" id="machine_add" value="1" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label">申请类型：</label>
+            <div class="layui-input-block">
+                <select id="pid" name="sqlx" id="sqlx" lay-filter="aihao" lay-verify="sqlx">
+                    <option value="0">--请选择--</option>
+                    <option value="1">登轮许可证</option>
+                    <option value="2">口岸限定区域许可证</option>
+                    <option value="3">口岸限定区域车辆通行证</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="height: 20px">
+            <label class="layui-form-label">身份证号：</label>
+            <div class="layui-input-block">
+                <input type="text"  name="cardno" id="cardno" onblur="javascript:GetInfo();" placeholder="" autocomplete="off" class="layui-input" lay-verify="required|identity">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="NameA" id="NameA" placeholder="" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</label>
+            <div class="layui-input-block">
+                <select id="Sex2" name="Sex2" lay-filter="Sex2">
+                    <option value="0">--请选择--</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期：</label>
+            <div class="layui-input-block">
+                <input lay-verify="required|date" type="text" id="Born2" name="Born2"  onclick="layui.laydate({elem: this})" class="layui-input" value="" placeholder="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="Address" id="Address" placeholder="" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</label>
+            <div class="layui-input-block">
+                <input type="text" name="mob" id="mob" placeholder="" autocomplete="off" class="layui-input" lay-verify="required|phone|number">
+            </div>
+        </div>
+        <div class="layui-form-item" id="work">
+            <label class="layui-form-label">工作单位：</label>
+            <div class="layui-input-block">
+                <input type="text" name="danwei" id="danwei" placeholder="" autocomplete="off" class="layui-input" lay-verify="danwei">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务：</label>
+            <div class="layui-input-block">
+                <input type="text" name="zhiwu" id="zhiwu" placeholder="" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item" id="carnumber">
+            <label class="layui-form-label">车牌牌号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="carno" id="carno" placeholder="" autocomplete="off" class="layui-input" lay-verify="carno">
+            </div>
+        </div>
+        <div class="layui-form-item" id="boat" style="width: 100%">
+            <label class="layui-form-label">所登船舶：</label>
+            <div class="layui-input-inline" style="width: 50%;float: left;">
+                <input type="text" name="board" id="board" placeholder="" value="" autocomplete="off" class="layui-input" lay-verify="board">
+            </div>
+            <div class="layui-input-inline" style="width: 6%;float: left">
+                <input type="checkbox" name="bhc" id="bhc" lay-filter="bhc" placeholder="" autocomplete="off" class="layui-checkbox">
+            </div>
+            <div  style="width: 10%;float: left;margin-top: 8px;font-weight: bold;">
+                本航次
+            </div>
+        </div>
+        <div class="layui-form-item" id="sqsx">
+            <label class="layui-form-label">申请时限：</label>
+            <div class="layui-input-block">
+                <input type="text" lay-verify="testy"  id="testy" name="testy"  onclick="layui.laydate({elem: this})" class="layui-input" value="" placeholder="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">申请事由：</label>
+            <div class="layui-input-block">
+                <input type="text" name="shiyou" id="shiyou" placeholder="" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item" style="text-align: center;">
+
+                <a class="layui-btn" id="save" lay-submit  lay-filter="formDemo">保存</a>
+
+        </div>
+    </form>
+    <div id="qrcode" style="display: none"></div>
+</div>
+<div class="booth" style="float: left;width: 30%;margin-top: 18px;">
+  <video id="video" width="400" height="300"></video>
+  <button id='tack' style="text-align: center"> 点击拍照</button>
+  <canvas id='canvas' width='400' height='300'></canvas>
+</div>
+{#<div id="ewm_pic" style="float: left;width: 30%;margin-top: 18px;height: 36%;"><img id="img" src=""></div>#}
+</body>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery.qrcode.min.js"></script>
+<script>
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+        var type_value='';
+        form.on('select(aihao)', function(data){
+            alert(11);
+            var objS = document.getElementById("pid");
+            var value = objS.options[objS.selectedIndex].value;
+            type_value=value;
+            if (value == 1) {
+                $("#boat").css("display", "block");
+                $("#work").css("display", "block");
+                $("#carnumber").css("display", "none");
+            } else if (value == 2) {
+                $("#boat").css("display", "none");
+                $("#work").css("display", "block");
+                $("#carnumber").css("display", "none");
+            } else if (value == 3) {
+                $("#boat").css("display", "none");
+                $("#work").css("display", "none");
+                $("#carnumber").css("display", "block");
+            }
+        });
+
+
+        form.verify({
+            sqlx: function (value, item) {
+                if (value== 0) {
+                    return '请选择申请类型';
+
+                }
+
+            },
+            Sex2: function (value, item) {
+                if (value== 0) {
+                    return '请选择性别,只能为男或女!';
+
+                }
+
+            },
+            danwei: function (value, item) {
+                if (""==value&&type_value==2||""==value&&type_value==1) {
+                    return '请输入工作单位！';
+
+                }
+
+            },
+            carno: function (value, item) {
+                if (""==value&&type_value==3) {
+                    return '请输入车牌号！';
+
+                }
+
+            },
+            board: function (value, item) {
+                if(!$('#bhc').attr('checked')){
+                    if (""==value&&type_value==1){
+                        return '请输入所登的船舶！';
+                    }
+                }
+
+            },
+            testy: function (value, item) {
+                if(!$('#bhc').attr('checked')){
+                    if (""==value&&type_value==1){
+                        return '请选择申请时限！';
+                    }
+                }
+
+            }
+        });
+
+
+
+        var flag_save=true;
+        form.on('submit(formDemo)', function(data) {
+            var objSex = document.getElementById("Sex2");
+            var gender = objSex.options[objSex.selectedIndex].value;
+
+            var objS = document.getElementById("pid");
+            var value1 = objS.options[objS.selectedIndex].value;
+
+
+            var uname = $('#NameA').val();
+            var cardno = $('#cardno').val();
+            var Sex2 = $('#Sex2').val();
+            var Born2 = $('#Born2').val();
+            var Address = $('#Address').val();
+            var board = $('#board').val();
+            var mob = $('#mob').val();
+            var shiyou = $('#shiyou').val();
+            var testy = $('#testy').val();
+
+
+
+            var sqlx = ""
+            var dw = $("#danwei").val();
+            if (value1 == 1) {
+                sqlx = "登轮许可证"
+            } else if (value1 == 2) {
+                sqlx = "口岸限定区域许可证"
+            } else if (value1 == 3) {
+                sqlx = "口岸限定区域车辆通行证"
+                var cp = $("#carno").val();
+                dw = $("#danwei").val(cp);
+            }
+
+            var sum = sqlx + '||' + uname + '||' + gender + '||' + cardno + '||' + Born2 + '||' + Address + '||' + dw + '||' + board + '||' + mob + '||' + shiyou + '||' + testy;
+            alert(sum);
+            var text = toUtf8(sum)
+            $("#qrcode").qrcode({
+                render: 'canvas',
+                width: 200, //宽度
+                height: 200, //高度
+                text: text,//任意内容
+                {#    src: "/static/ewm.png"#}
+            });
+
+            var canvas = $('#qrcode').find("canvas").get(0);
+            try {//解决IE转base64时缓存不足，canvas转blob下载
+                var blob = canvas.msToBlob();
+                navigator.msSaveBlob(blob, 'qrcode.jpg');
+            } catch (e) {//如果为其他浏览器，使用base64转码下载
+                var url = canvas.toDataURL('image/jpeg');
+                console.log(url);
+                $("#img").attr('src', url)
+            }
+
+            $("#ewm").val(url);
+
+            if (flag_save) {
+{#                flag_save=false;#}
+{#                $("#save").css("background", "#CCCCCC");#}
+                var data = new FormData($('#dataform')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "{{basepath}}applymanager/save",
+                    data: data,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data == '0') {
+                            parent.layer.msg('添加成功');
+                            setTimeout("location.href='/applymanager/list?vcode={{ vcode }}';", 500);
+{#                            setTimeout("parent.location.reload();", 500);#}
+                        } else {
+                            parent.layer.msg('添加失败');
+                        }
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+        });
+        var flag=''
+        form.on('checkbox(bhc)', function(data){
+            flag=data.elem.checked;
+            if(flag){
+                $("#sqsx").css("display", "none");
+                $("#board").attr("readonly","readonly");
+                $("#is_bhc").val('1')
+            }else {
+                $("#sqsx").css("display", "block");
+                $("#board").removeAttr("readonly");
+                $("#is_bhc").val('0')
+            }
+        });
+
+
+    });
+
+    function GetInfo() {
+        var cn=$('#cardno').val()
+        $.ajax({
+            url:"{{basepath}}applymanager/getuinfo/"+cn,
+            type:"get",
+            dataType:'json',
+            success:function(data){
+                if(data!='1'){
+                    $('#NameA').val(data.uname);
+                    $('#Sex2').val(data.gender);
+                    $('#Born2').val(data.birthday);
+                    $('#Address').val(data.address);
+                    $('#mob').val(data.mob);
+
+
+                    var sel = document.getElementById('Sex2');
+                    var len = sel.options.length;
+
+                    var stateValue = data.gender;
+
+                    for(var i=0; i< len; i++){
+
+                        if(sel.options[i].value ==stateValue){
+                            sel.options[i].selected = 'selected';
+                            break;
+                        }
+                    }
+                    layui.use(['form', 'layedit', 'laydate'], function(){
+                        var form = layui.form();
+                        form.render('select');
+
+                    });
+                }
+            },
+            error:function(e){
+
+            }
+        });
+        return false;
+
+    }
+</script>
+<script>
+    var video = document.getElementById('video'),
+        canvas = document.getElementById('canvas'),
+        snap = document.getElementById('tack'),
+        button = document.getElementById('button'),
+        vendorUrl = window.URL || window.webkitURL;
+    var image_save_blob;
+
+    //媒体对象
+    navigator.getMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+    navigator.getMedia({
+        video: true, //使用摄像头对象
+        audio: false  //不适用音频
+    }, function(strem){
+        console.log(strem);
+        video.src = vendorUrl.createObjectURL(strem);
+        video.play();
+    }, function(error) {
+        //error.code
+        console.log(error);
+    });
+    snap.addEventListener('click', function(){
+
+        //绘制canvas图形
+        canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+
+        //把canvas图像转为img图片，显示在网页上
+         img_url = canvas.toDataURL("image/png");
+{#         alert(img_url);#}
+         $("#cardno_pic").val(img_url);
+
+{#        //转成BLOB类型并保存在image_save_blbo这个变量里#}
+{#        canvas.toBlob(function(blob){#}
+{#            image_save_blob = blob;#}
+{#            console.log(blob)#}
+{#            console.log(image_save_blob)#}
+{#        })#}
+    })
+</script>
+</html>

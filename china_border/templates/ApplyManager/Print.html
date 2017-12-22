@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+打印
+</title>
+  <script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="{{basepath}}static/js/jquery.jqprint-0.3.js"></script>
+  <script type="text/javascript">
+      $(function () {
+          GetCert();
+      });
+
+      function GetCert() {
+          $.ajax({
+              type: "POST",
+              url: "{{basepath}}applymanager/user_data/{{vcode}}",
+              data: "",
+              dataType: "json",
+              success: function (data) {
+                  data = eval(data);
+                  var Html = "";
+                  $.each(data, function (i, item) {
+                      var cardnoPic = "";
+                      var ewmPic = "http://jxbj82713595.oicp.net/"+item.ewm;
+                      //口岸限定区域许可证
+                      if (item.sqlx == "口岸限定区域许可证") {
+                          Html = Html + "<div id='table" + i + "'  class='printDIV' style='height:443px;'>";
+                          Html = Html + "<div style='height:30px'></div>";
+                          Html = Html + "<table width='100%' border='0' cellspacing='1' cellpadding='1' bgcolor='#000000' style='border:#000 solid 2px; width:270px; margin:10px 0 0 10px;' >";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td colspan='3' bgcolor='#FFFFFF' style='height:30px; text-align:center'><h2 style='height:30px; line-height:30px; margin:0; padding:0'>" + item.sqlx + "</h2></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td width='28%' height='30' align='center' bgcolor='#FFFFFF'>姓　　名</td>";
+                          Html = Html + "<td width='32%' bgcolor='#FFFFFF'>" + item.uname + "</td>";
+                          Html = Html + "<td width='35%' rowspan='4' bgcolor='#FFFFFF'><img src='" + item.cardno_pic + "' style='margin:1px; width:104px; height:120px' error='this.src=images/clear.gif'></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>性　　别</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.gender + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>出生日期</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.birthday + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>职　　务</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.zhiwu + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>单　　位</td>";
+                          Html = Html + "<td colspan='2' bgcolor='#FFFFFF'>" + item.danwei + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>有效期</td>";
+                          Html = Html + "<td colspan='2' bgcolor='#FFFFFF'>" + item.sqsx + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='100' colspan='3' align='right' bgcolor='#FFFFFF' style='line-height:24px;'><table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td><img src='" + item.ewm + "' style='display:block; margin:1px; width:110px;'></td>";
+                          Html = Html + "<td align='right' style='font-size:12px;'>签发机关（盖章）&nbsp;&nbsp;<br><br>";
+                          Html = Html + "签发日期：" + item.fdate + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "</table></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "</table>";
+                          Html = Html + "</div>";
+                      }
+
+                      //口岸限定区域车辆通行证
+                      if (item.sqlx == "口岸限定区域车辆通行证") {
+                          //Html += "<div style='height:443px;background-color:green;line-height:443px;'>123</div>"
+                          Html = Html + "<div id='table" + i + "'  class='printDIV' style='height:443px;'>";
+                          Html = Html + "<div style='height:30px'></div>";
+                          Html = Html + "<div style='margin:0 0 0 -30px'><h2 style='text-align:center'>口岸限定区域<br>车辆通行证</h2>";
+                          Html = Html + "<p style='font-size:14px ;text-align:left; margin:0 0 0 80px'>车辆牌号</p>";
+                          Html = Html + "<p style='line-height:50px;margin:0;padding:0; text-align:center; font-size:50px; font-weight:700'>" + item.danwei + "</p><br><br>";
+                          Html = Html + "<p style='line-height:30px; padding:0; font-size:14px; font-weight:400; text-align:center'>有效期：" + item.sqsx + "</p><hr>";
+                          Html = Html + "<table width='280' border='0' cellspacing='0' cellpadding='0'>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td><img src='" + item.ewm + "' style='display:block; margin:1px; width:110px; display:block; margin:0 0 0 30px'></td>";
+                          Html = Html + "<td align='right' style='font-size:12px;'>签发机关（盖章）&nbsp;&nbsp;<br><br>";
+                          Html = Html + "签发日期：" + item.fdate + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "</table></div>";
+                          Html = Html + "</div>";
+                      }
+
+                      //登轮许可证
+                      if (item.sqlx == "登轮许可证") {
+                          //Html += "<div style='height:443px;background-color:blue;line-height:443px;'>123</div>"
+                          Html = Html + "<div id='table" + i + "'  class='printDIV' style='height:443px;'>";
+                          Html = Html + "<div style='height:30px'></div>";
+                          Html = Html + "<table width='100%' border='0' cellspacing='1' cellpadding='1' bgcolor='#000000' style='border:#000 solid 2px; width:270px; margin:10px 0 0 10px;' >";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td colspan='3' bgcolor='#FFFFFF' style='height:30px; text-align:center'><h2 style='height:30px; line-height:30px; margin:0; padding:0'>" + item.sqlx + "</h2></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td width='28%' height='30' align='center' bgcolor='#FFFFFF'>姓　　名</td>";
+                          Html = Html + "<td width='32%' bgcolor='#FFFFFF'>" + item.uname + "</td>";
+                          Html = Html + "<td width='35%' rowspan='4' bgcolor='#FFFFFF'><img src='" + item.cardno_pic + "' style='margin:1px; width:104px; height:120px' error='this.src=images/clear.gif'></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>性　　别</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.gender + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>出生日期</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.birthday + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>职　　务</td>";
+                          Html = Html + "<td bgcolor='#FFFFFF'>" + item.zhiwu + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>单　　位</td>";
+                          Html = Html + "<td colspan='2' bgcolor='#FFFFFF'>" + item.danwei + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>所登船舶</td>";
+                          Html = Html + "<td colspan='2' bgcolor='#FFFFFF'>" + item.board + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='30' align='center' bgcolor='#FFFFFF'>有效期</td>";
+                          Html = Html + "<td colspan='2' bgcolor='#FFFFFF'>" + item.sqsx + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td height='100' colspan='3' align='right' bgcolor='#FFFFFF' style='line-height:24px;'><table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+                          Html = Html + "<tr>";
+                          Html = Html + "<td><img src='" + item.ewm + "' style='display:block; margin:1px; width:110px;'></td>";
+                          Html = Html + "<td align='right' style='font-size:12px;'>签发机关（盖章）&nbsp;&nbsp;<br><br>";
+                          Html = Html + "签发日期：" + item.fdate + "</td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "</table></td>";
+                          Html = Html + "</tr>";
+                          Html = Html + "</table>";
+                          Html = Html + "</div>";
+                      }
+                  });
+                  $("#printDiv").html(Html);
+              },
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+                  alert(XMLHttpRequest.status);
+                  alert(XMLHttpRequest.readyState);
+                  alert(textStatus);
+              },
+              complete: function (XMLHttpRequest, textStatus) {
+                  this; // 调用本次AJAX请求时传递的options参数
+              }
+          });
+      }
+
+      function GetQueryString(name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) return (r[2]); return null;
+      }
+
+  </script>
+  <style>td {font-size:14px; line-height:30px}</style>
+</head>
+<body>
+<div style="background:#fff; width:100%; height:460px;">
+  <div id="printDiv" style="width:310px; margin:0 auto; height:420px; overflow-y:auto; overflow-x:hidden"></div>
+</div>
+<div style="height:30px; width:260px; text-align:center;line-height:30px; margin:2px auto">
+  <input type="button" onclick="Print();" style="width:100px; height:30px; background:#0085B2; color:#fff; text-align:center; border:0; cursor:pointer" value="打印" id="printBtn" />
+</div>
+<script type="text/javascript">
+function Print() {
+    var printData = document.getElementById("printDiv").innerHTML;
+    window.document.body.innerHTML = printData;
+    window.print();
+}
+</script>
+</body>
+</html>

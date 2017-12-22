@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>公司管理</title>
+	<link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+	<link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+</head>
+<style>
+	.select
+	{
+		width:150px;
+		display:inline-block;
+		margin-left:30px;
+	}
+	.input
+	{
+		width:150px;
+		display:inline-block;
+		margin-left:20px;
+	}
+	.find
+	{
+		margin-left:30px;
+	}
+</style>
+<body>
+<div class="admin-main">
+	<form class="layui-form" action="" id="pageForm">
+		<blockquote class="layui-elem-quote">
+
+			<a onclick="add_com()" class="layui-btn layui-btn-small" id="add">
+				<i class="layui-icon">&#xe608;</i> 添加公司
+			</a>
+
+			<span class="find">公司查找：</span>
+			<input type="text" name="key" placeholder="请输入公司名" value="{% if key %}{{ key }}{% endif %}" autocomplete="off"  class="layui-input input"/>
+			<a onclick="mysearch()" class="layui-btn layui-btn-small">
+				<i class="layui-icon">&#xe615;</i> 搜索
+			</a>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>公司列表</legend>
+			<div class="layui-field-box layui-form">
+				<table class="layui-table admin-table">
+					<thead>
+					<tr>
+						<th>公司名称</th>
+						<th>备注</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody id="content">
+					{%for item in userlist%}
+					<tr>
+						<th>{{item.name}}</th>
+						<th>{%if item.remark%}{{item.remark}}{%endif%}</th>
+						<th>
+							<a class="layui-btn layui-btn-mini layui-btn-normal modal-full" onclick="view('{{item.id}}')">查看</a>
+							<a class="layui-btn layui-btn-mini green modal-full" onclick="edit_com('{{item.id}}')">编辑</a>
+							<a class="layui-btn layui-btn-mini layui-btn-danger modal-full" onclick="del('{{item.id}}')">删除</a>
+						</th>
+					</tr>
+					{%endfor%}
+					</tbody>
+				</table>
+				<div class="text-right" id="page"></div>
+			</div>
+		</fieldset>
+		<div class="admin-table-page">
+
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+</body>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form()
+    });
+    layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage
+        layer = layui.layer;
+        laypage({
+            cont: 'page',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+            pages:'{{countpage}}',//通过后台拿到的总页数
+            skip: true,
+            curr: '{{currentpage}}', //当前页
+            jump: function(e, first){ //触发分页后的回调
+                if(!first){ //一定要加此判断，否则初始时会无限刷新
+                    var postform = document.getElementById("pageForm");
+                    postform.action="{{basepath}}cmanager/list/" + e.curr;
+                    postform.submit();
+                }
+            }
+        });
+    });
+    function del(id)
+    {
+        layer.confirm('确定要删除吗?', function (index) {
+            $.ajax({
+                url:"{{basepath}}cmanager/delete/"+id,
+                type:"get",
+                success:function(data){
+                    if(data=='0'){
+                        layer.msg('删除成功！');
+                        setTimeout("location.reload();",500);
+                    }else {
+                        layer.msg('删除失败！');
+                    }
+
+                },
+                error:function(e){
+                    layer.msg("删除失败！");
+                }
+            });
+            layer.close(index);
+        });
+
+    }
+    function mysearch()
+    {
+        var postform = document.getElementById("pageForm");
+        postform.action="{{basepath}}cmanager/list/1";
+        postform.submit();
+    }
+
+    function view(role_id) {
+        layer.open({
+            title :'公司详情',
+            type: 2,
+            offset: '2px',
+            area: ['600px', '450px'],
+            content: '{{basepath}}cmanager/detail/'+role_id
+        });
+    }
+	    function add_com() {
+            layer.open({
+                title :'公司添加',
+                type: 2,
+                offset: '2px',
+                area: ['600px', '450px'],
+                content: '{{basepath}}cmanager/add'
+            });
+    }
+
+
+        function edit_com(mid) {
+        layer.open({
+            title :'公司编辑',
+            type: 2,
+            offset: '2px',
+            area: ['600px', '450px'],
+            content: '{{basepath}}cmanager/edit/'+mid
+        });
+    }
+
+</script>
+</html>

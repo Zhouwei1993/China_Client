@@ -1,0 +1,49 @@
+body,dl,dt,dd,ol,ul,pre,form,field,input,p,blockquote,th,td,h1,h2,h3,h4,h5,h6 {font-family:Arial, Helvetica, sans-serif;color:#0099cc;font-size:12px;margin:0;padding:0; font-family:"微软雅黑", "宋体"}
+body {
+	background-image:url(../img/admincp_bg.jpg);
+	background-repeat:repeat-x;
+	background-color: #DFF7FF;
+}
+img {border:0;}
+ul,ol {list-style:none;}
+p,li {line-height:1.8em;}
+.b {font-weight:700;}
+.f_l {float:left;}
+.f_r {float:right;}
+.wt12 {font-family:Arial,"宋体";color:#fff}
+.bt14 {font-size:14px;font-weight:700;}
+.cursor {cursor:pointer ;}
+.alink{color:#fff; text-decoration:none;}
+.clearfix { clear:both; visibility:hidden; line-height:0; margin:0; padding:0; }
+
+
+/*布局*/
+
+#loginDIV{ width:780px; height:378px; background:url(../img/LOGIN.png) no-repeat; margin:0 auto;}
+#loginDIV .left{ width:410px; float:left; height:auto;}
+#loginDIV .left img { display:block; margin:93px 0 0 95px;}
+#loginDIV .right { width:238px; float:left; margin-left:38px; height:378px; overflow:hidden}
+#paneName{ height:56px; line-height:56px; width:100px; font-size:24px; font-weight:400; text-align:center;}
+
+
+/*#loginform {  background:#fff url(../img/LOGIN_login.jpg) 0 0 no-repeat;}*/
+/*#getpwdform { background:#fff url(../img/LOGIN_login.jpg) 0 0 no-repeat;}*/
+#regform { background:#fff url(../img/login_reg.jpg) 0 0 no-repeat;}
+
+.form { display:block; height:202px; width:238px; float:left; margin-top:10px;}
+.form input { vertical-align:middle;}
+.form p {height:56px;}
+.form p .input { width:238px; height:42px; line-height:40px; border:0; font-size:14px; font-weight:700; color:#666; background:transparent; text-indent:10px;display:block}
+.form p select { display:block; margin-left:74px; margin-top:10px; background:#F3F8FC; border:#F3F8FC solid 1px; width:150px;}
+.form p span { display:block; float:left;}
+.form p span label { color:#09C; text-align:left; padding:0;}
+.form p a { display:block; float:right; color:#09c; text-decoration:none; border-bottom:#09C dotted 1px;}
+
+a:hover { color:#F00}
+.subBtn { width:238px; height:42px; background:url(../img/form_img.jpg) 0 -42px; border:0; text-align:center; line-height:40px; color:#fff; font-weight:700; font-size:16px; cursor:pointer;}
+.subBtn:hover { background:url(../img/form_img.jpg) 0 -84px;}
+.ulink { display:block; width:50px; height:20px; text-align:left; margin-left:25px; line-height:20px; text-decoration:none; color:#666; border-bottom:#666 dotted 1px;}
+.ulink:hover { color:#F00}
+
+label.error{float:none; color:red; vertical-align:middle; margin-left:5px}
+label.valid{background:url(../js/validateimage/accept.png) 4px center no-repeat; }

@@ -1,0 +1,19 @@
+/*------- Tip Style -------*/
+.popup_tip
+{
+	vertical-align:middle;
+}
+.popup_tip .popup_content
+{
+	color:#fff;
+	background:url(../img/process.gif) repeat;
+	text-align:center;
+	font-size:14px;
+	font-weight:700;
+	border-radius:5px;
+}
+.popup_tip .popup_content td { color:#fff;}
+.popup_tip img
+{
+	vertical-align:middle;
+}

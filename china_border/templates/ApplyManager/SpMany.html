@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>申报审批</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+    <style>
+        .item
+        {
+            margin-left:100px;
+            margin-bottom:10px;
+        }
+        .layui-anim
+        {
+            z-index:1000 !important;
+        }
+        #editor
+        {
+            height:350px;
+        }
+        .star
+        {
+            color:red;
+            margin-right:5px;
+        }
+        .sp_div
+        {
+            height: 100%;
+            float: left;
+            margin: 0;
+            padding: 0;
+            z-index: 80;
+        }
+        .one
+        {
+
+            width: 32%;
+
+        }
+        .two
+        {
+            width: 32%;
+            margin-left: 1%;
+        }
+        .three
+        {
+            width: 33%;
+        }
+        .sub
+        {
+            margin-top: 13px;
+            width: 100%;
+        }
+        .sub2
+        {
+            float: left;
+            width: 28%;
+        }
+        .sub3
+        {
+            float: left;
+            width: 37%;
+            margin-left: 1%;
+        }
+
+        .sub4
+        {
+            float: left;
+            width: 33%;
+            margin-left: 1%;
+        }
+        .sub1
+        {
+            font-weight: bold;
+        }
+
+        select{
+            padding-right: 14px;
+        }
+    </style>
+</head>
+<body>
+<form id="dataform" class="layui-form" method="post" action="" enctype="multipart/form-data">
+    <div style="height: 100%;width: 100%;position: relative;">
+        <div style="width: 890px;height: 36px;margin:8px;padding: 0;position: relative;vertical-align: middle">
+            <input name="cids" value="{{cids}}" hidden>
+            <div style="float:left;width: 120px"><input name="sqsx" style="display: inline;width: 100%" type="text" name="sqsxall"  onclick="layui.laydate({elem: this})" class="layui-input" value=""></div>
+            <div class="layui-input-inline" style="float: left;margin-left: 8px;width: 180px">
+                <select name="sqlx"  lay-search="">
+                    <option value="">全部</option>
+                    <option value="登轮许可证">登轮许可证</option>
+                    <option value="口岸限定区域许可证">口岸限定区域许可证</option>
+                    <option value="口岸限定区域车辆通行证">口岸限定区域车辆通行证</option>
+                </select>
+            </div>
+                <div class="layui-input-inline" style="float: left;margin-left: 8px;width: 120px">
+                        <select  name="jbr">
+                            <option value="">经办人</option>
+                            {%for j in jbr%}
+                            <option value="{{j.name}}" >{{j.name}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                    <div class="layui-input-inline" style="float: left;margin-left: 8px;width: 130px">
+                        <select  name="pzbm">
+                            <option value="执勤业务科">执勤业务科</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline" style="float: left;margin-left: 8px;width: 130px">
+                        <select name="pzld">
+                            <option value="">批准领导</option>
+                            {%for l in ld%}
+                            <option value="{{l.name}}" >{{l.name}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+            <div style="float:left;margin: 4px"><a class="layui-btn layui-btn-normal" style="line-height: 25px;height: 28px;" lay-submit  lay-filter="formDemo">审核</a></div>
+        </div>
+        {%for cs in cinfos%}
+        {%for c in cs%}
+        <div style="width: 890px;height: 230px;margin: 0;padding: 0;position: relative">
+            <div class="sp_div one">
+                <div style="padding: 0;margin-left: 1%;width: 49%;height: 100%;float: left;">
+                    <img src="{{ c.ewm }}" style="width: 100%;height: 60%;margin-top: 33%">
+                </div>
+                <div style="padding: 0;margin-left: 1%;width: 49%;height: 100%;float: left;">
+                    <img src="{{ c.cardno_pic }}" style="width: 100%;height: 60%;margin-top: 33%">
+                </div>
+            </div>
+            <div class="sp_div two">
+                <div class="sub" style="height: auto;"><label class="sub1">申报类型</label>：{{c.sqlx}}</div>
+                <div class="sub" ><label class="sub1">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>：{{c.uname}}</div>
+                <div class="sub" ><label class="sub1">身份证号</label>： {{c.cardno}}</div>
+                <div class="sub" ><label class="sub1">工作单位</label>：{{c.danwei}}</div>
+                <div class="sub" ><label class="sub1">所登船舶</label>：<input readonly name="board" style="display: inline;width: 52%" type="text" name="name" placeholder="" autocomplete="off" class="layui-input" value="{%if c.board%}{{c.board}}{%endif%}"></div>
+                <div class="sub" ><label class="sub1">申请事由</label>：{{c.shiyou}}</div>
+            </div>
+            <div class="sp_div three">
+                <!--<div class="sub" style="width: 100%"><label class="sub1">申请时限</label>：{{c.sqsx}}</div>-->
+                <div class="sub" style="width: 100%"><label class="sub1">申请时限</label>：<input readonly name="sqsx" style="display: inline;width: 50%" type="text" name="sqsx"  onclick="layui.laydate({elem: this})" class="layui-input" value="{{c.sqsx}}" ></div>
+
+
+                <div class="sub" style="width: 100%"><label class="sub1">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>：{{c.gender}}</div>
+                <div class="sub" style="width: 100%"><label class="sub1">联系电话</label>：{{c.mob}}</div>
+                <div class="sub" style="width: 100%"><label class="sub1">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务</label>：{%if c.zhiwu%}{{c.zhiwu}}{%endif%}</div>
+                <div class="sub" style="width: 100%"><label class="sub1">审核状态</label>：{%if c.flag==1%}已审核{%else%}未审核{%endif%}</div>
+            </div>
+        </div>
+        <hr class="layui-bg-blue">
+        {%endfor%}
+        {%endfor%}
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+<script>
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var data = new FormData($('#dataform')[0]);
+            $.ajax({
+                type: "POST",
+                url: "{{basepath}}applymanager/savemany",
+                data:data,
+                async:false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if(data=='0'){
+                        parent.layer.msg('操作成功');
+                        setTimeout("parent.location.reload();",500);
+                    }else if(data=='1'){
+                        parent.layer.msg('部分操作失败，请重新审批！');
+                    } else {
+                        parent.layer.msg('操作失败');
+                    }
+
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    });
+</script>
+</html>

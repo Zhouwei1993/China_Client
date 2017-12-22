@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ZH-CN">
+<head>
+  <meta charset="utf-8">
+  <title>web RTC 测试</title>
+  <style>
+    .booth {
+      width:400px;
+
+      background:#ccc;
+      border: 10px solid #ddd;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+<div class="booth">
+  <form action = "www.wuyiming.cn" method = "post">
+    <p>name</p>
+    <input type="text" name="name" value="">
+  </form>
+  <button id="button">提交信息</button>
+  <video id="video" width="400" height="300"></video>
+  <button id='tack'> snap shot</button>
+  <canvas id='canvas' width='400' height='300'></canvas>
+  <img id='img' src=''>
+</div>
+<script>
+    var video = document.getElementById('video'),
+        canvas = document.getElementById('canvas'),
+        snap = document.getElementById('tack'),
+        img = document.getElementById('img'),
+        button = document.getElementById('button'),
+        vendorUrl = window.URL || window.webkitURL;
+    var image_save_blob;
+
+    //媒体对象
+    navigator.getMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+    navigator.getMedia({
+        video: true, //使用摄像头对象
+        audio: false  //不适用音频
+    }, function(strem){
+        console.log(strem);
+        video.src = vendorUrl.createObjectURL(strem);
+        video.play();
+    }, function(error) {
+        //error.code
+        console.log(error);
+    });
+    snap.addEventListener('click', function(){
+
+        //绘制canvas图形
+        canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+
+        //把canvas图像转为img图片，显示在网页上
+        img.src = canvas.toDataURL("image/png");
+
+        //转成BLOB类型并保存在image_save_blbo这个变量里
+        canvas.toBlob(function(blob){
+            image_save_blob = blob;
+            console.log(blob)
+            console.log(image_save_blob)
+        })
+    })
+    button.addEventListener('click', function(){
+
+        //创建formdat文件，并把图片文件加入
+        formdata = new FormData(document.querySelector("form"));
+        formdata.append("file",image_save_blob);
+        //发送
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", '');
+        xmlHttp.send(formdata);
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                console.log(xmlHttp.responseText);
+            } else {
+                console.log(xmlHttp.statusText);
+            }
+        };
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ basepath }}static/css/index_content1.css"/>
+    <link rel="stylesheet" href="{{ basepath }}static/css/jedate1.css" />
+    <script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+    <script src="{{basepath}}static/js/index_content.js"></script>
+    <link type="text/css" rel="stylesheet" href="{{basepath}}static/css/jedate.css"/>
+    <script type="text/javascript" src="{{basepath}}static/js/jedate.js"></script>
+    <script type="text/javascript" src="http://www.baidu.com/olime/bdime_open.js"></script>
+
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+    <script>
+        function GetInfo() {
+            var cn=$("#cardno").val()
+            $.ajax({
+                url:"{{basepath}}applymanager/getuinfo/"+cn,
+                type:"get",
+                dataType:'json',
+                success:function(data){
+                    if(data!='1'){
+                        $('#NameA').val(data.uname);
+                        $('#Sex2').val(data.gender);
+                        $('#Born2').val(data.birthday);
+                        $('#Address').val(data.address);
+                        $('#mob').val(data.mob);
+
+
+                        var sel = document.getElementById('Sex2');
+                        var len = sel.options.length;
+
+                        var stateValue = data.gender;
+
+                        for(var i=0; i< len; i++){
+
+                            if(sel.options[i].value ==stateValue){
+                                sel.options[i].selected = 'selected';
+                                break;
+                            }
+                        }
+                        layui.use(['form', 'layedit', 'laydate'], function(){
+                            var form = layui.form();
+                            form.render('select');
+
+                        });
+                    }
+                },
+                error:function(e){
+
+                }
+            });
+            return false;
+
+        }
+
+        function GetBase64(_cardnoPic)
+        {
+            if(_cardnoPic!=null&&_cardnoPic!="")
+            {
+                jQuery.post("../SCert/getBase64.do",
+                    {"cardnoPic":_cardnoPic
+                    },function(json){
+                        //alert(json);
+                        cardnoPic = json;
+                        $("#myPhoto").attr("src", "data:image/png;base64,"+json)
+                    },"json");
+            }
+        }
+    </script>
+</head>
+<style>
+    .warpbox {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 40px 0 0 0;
+    }
+
+    .datainp {
+        width: 200px;
+        border: 1px #ccc solid;
+        padding: 5px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .datep {
+        margin-bottom: 40px;
+        line-height: 24px;
+        margin-right: 15px;
+    }
+    {#    .layui-form-checkbox i{#}
+    {#        font-size: 16px;#}
+    {#    }#}
+    {#    .layui-form-checkbox{#}
+    {#        width: 20px;#}
+    {#        margin-top: 2px;#}
+    {#    }#}
+    .layui-layer-title {
+        background-color: #0099CC;
+    }
+</style>
+
+<body>
+<div class="tip">请将二代身份证放置在机器的读卡处！</div>
+<div class="input" onclick="gtPage()">手动输入</div>
+
+<p style="display: none">
+    <object classid="clsid:012DA10C-2798-46EB-8A0A-8D9E25A56A89" id="SynIDCard1" codeBase="<%=basePath%>static/js/SynID.Cab#version=1,0,0,1" width="10" height="10" >
+        <param name="_Version" value="65536">
+        <param name="_ExtentX" value="635">
+        <param name="_ExtentY" value="582">
+        <param name="_StockProps" value="0">
+    </object>
+</p>
+
+<form id="dataform" class="layui-form" method="post" action="" enctype="multipart/form-data">
+    <div class="content">
+        <input name="ewm" id="ewm" value="" hidden>
+        <input name="is_bhc" id="is_bhc" value="" hidden>
+        <input name="cardno_pic" id="cardno_pic" value="" lay-verify="cardno_pic" hidden>
+        <input name="vcode" id="vcode" value="{{ vcode }}" hidden>
+        <input name="machine_add" id="machine_add" value="1" hidden>
+        <div class="left">
+            <div class="item">
+                <div class="name">
+                    申请类型:
+                </div>
+                <div class="dialog">
+                    <select id="pid" name="sqlx" id="sqlx" lay-filter="aihao" lay-verify="sqlx">
+                        <option value="0">--请选择--</option>
+                        <option value="1">登轮许可证</option>
+                        <option value="2">口岸限定区域许可证</option>
+                        <option value="3">口岸限定区域车辆通行证</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    身份证:
+                </div>
+                <div class="dialog">
+                    <input lay-verify="required|identity" type="text" name="cardno" id="cardno"  onblur="javascript:GetInfo();" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    姓名:
+                </div>
+                <div class="dialog">
+                    <input lay-verify="required" type="text" id="NameA" name="NameA" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    性别:
+                </div>
+                <div class="dialog">
+                    <select id="Sex2" name="Sex2" lay-filter="Sex2">
+                        <option value="0">--请选择--</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    出生日期:
+                </div>
+                <div class="dialog">
+                    <input lay-verify="required|date" type="text" id="Born2"  name="Born2" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    住址:
+                </div>
+                <div class="dialog">
+                    <input lay-verify="required" type="text" id="Address" name="Address" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    手机:
+                </div>
+                <div class="dialog">
+                    <input lay-verify="required|phone|number" type="text" name="mob" id="mob"/>
+                </div>
+            </div>
+            <div class="item" id="carnumber">
+                <div class="name">
+                    车牌号:
+                </div>
+                <div class="dialog">
+                    <input type="text"  name="carno" id="carno" lay-verify="carno"/>
+                </div>
+            </div>
+            <div class="item" id="work">
+                <div class="name">
+                    工作单位:
+                </div>
+                <div class="dialog">
+                    <input type="text" name="danwei" id="danwei" lay-verify="danwei" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name" >
+                    职务:
+                </div>
+                <div class="dialog">
+                    <input type="text" name="zhiwu" id="zhiwu"  lay-verify="required" />
+                </div>
+            </div>
+            <div class="item" id="boat">
+                <div  class="name" style="margin-top: 8px">
+                    所登船舶:
+                </div>
+                <div style="width: 53%;margin-top: 8px" class="dialog">
+                    <input type="text" name="board" id="board" lay-verify="board"/>
+                </div>
+                <div  style="width: 6%;float: left;height: 25px;margin-left: 12px;">
+                    <input style="width: 100%;height: 100%;margin-top: 2px" type="checkbox" name="bhc" id="bhc" lay-filter="bhc">
+                </div>
+                <div  style="width: 10%;float: left;margin-top: 8px;font-weight: bold;margin-left: 8px">
+                    本航次
+                </div>
+            </div>
+            <div class="item" id="sqsx">
+                <div class="name">
+                    申请时限:
+                </div>
+                <div class="dialog">
+                    <input type="text" name="testy"  id="testy" lay-verify="testy" />
+                </div>
+            </div>
+            <div class="item">
+                <div class="name">
+                    申请是由:
+                </div>
+                <div class="dialog">
+                    <input type="text" name="shiyou" id="shiyou" lay-verify="required"/>
+                </div>
+            </div>
+        </div>
+{#        <div class="right">#}
+{#            <div class="photo">#}
+{#                <img id="myPhoto" src="img/photo_bg.png"/>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="booth" style="float: left;width:34%;margin-left: 1%;">
+            <video id="video"   style="width: 160px;height: 180px;object-fit: fill;"></video>
+
+            <a class="layui-btn layui-btn-warm" id='tack' style="text-align: center;margin-left: 30px"> 点击拍照</a>
+            <canvas id='canvas' width='160' height="180" style="margin-top: 2px;object-fit: fill;"></canvas>
+        </div>
+        <div class="bottom" style="float: left;margin-left: 120px">
+            <a class="layui-btn layui-btn-big layui-btn-radius layui-btn-normal" style="background: #CCCCFF;margin-right: 30px;" lay-submit  lay-filter="formDemo" id="btn1">
+                继续
+            </a>
+            <a class="layui-btn  layui-btn-big layui-btn-radius layui-btn-normal" style="background: #CCCCFF" lay-submit  lay-filter="formDemo2" id="btn2">
+                完成
+            </a>
+        </div>
+    </div>
+</form>
+<div id="qrcode" style="display: none"></div>
+</body>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        var flag=''
+        form.on('checkbox(bhc)', function(data){
+            flag=data.elem.checked;
+            if(flag){
+                $("#sqsx").css("display", "none");
+                $("#board").attr("readonly","readonly");
+                $("#is_bhc").val('1')
+            }else {
+                $("#sqsx").css("display", "block");
+                $("#board").removeAttr("readonly");
+                $("#is_bhc").val('0')
+            }
+        });
+
+
+        var type_value='';
+        form.on('select(aihao)', function(data){
+            var objS = document.getElementById("pid");
+            var value = objS.options[objS.selectedIndex].value;
+            type_value=value;
+            if (value == 1) {
+                $("#boat").css("display", "block");
+                $("#work").css("display", "block");
+                $("#carnumber").css("display", "none");
+            } else if (value == 2) {
+                $("#boat").css("display", "none");
+                $("#work").css("display", "block");
+                $("#carnumber").css("display", "none");
+            } else if (value == 3) {
+                $("#boat").css("display", "none");
+                $("#work").css("display", "none");
+                $("#carnumber").css("display", "block");
+            }
+        });
+
+
+        form.verify({
+            sqlx: function (value, item) {
+                if (value== 0) {
+                    return '请选择申请类型';
+
+                }
+
+            },
+            Sex2: function (value, item) {
+                if (value== 0) {
+                    return '请选择性别,只能为男或女!';
+
+                }
+
+            },
+            danwei: function (value, item) {
+                if (""==value&&type_value==2||""==value&&type_value==1) {
+                    return '请输入工作单位！';
+
+                }
+
+            },
+            carno: function (value, item) {
+                if (""==value&&type_value==3) {
+                    return '请输入车牌号！';
+
+                }
+
+            },
+            board: function (value, item) {
+                if(!$('#bhc').attr('checked')){
+                    if (""==value&&type_value==1){
+                        return '请输入所登的船舶！';
+                    }
+                }
+
+            },
+            testy: function (value, item) {
+                if(!$('#bhc').attr('checked')){
+                    if (""==value&&type_value==1){
+                        return '请选择申请时限！';
+                    }
+                }
+            },
+            cardno_pic: function (value, item) {
+                if (""==value){
+                    return '照片不能为空！';
+                }
+            }
+        });
+
+        var flag_save=true;
+        form.on('submit(formDemo)', function(data) {
+            if (flag_save) {
+                be_ewm();
+                {#                flag_save=false;#}
+                {#                $("#save").css("background", "#CCCCCC");#}
+                var data = new FormData($('#dataform')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "{{basepath}}applymanager/save",
+                    data: data,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data == '0') {
+                            parent.layer.msg('添加成功');
+                            setTimeout("location.href='/applymanager/machine_register?vcode={{ vcode }}';", 1000);
+                            {#                            setTimeout("parent.location.reload();", 1000);#}
+                        } else {
+                            parent.layer.msg('添加失败');
+                        }
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+        });
+
+        form.on('submit(formDemo2)', function(data) {
+            if (flag_save) {
+                be_ewm();
+                {#                flag_save=false;#}
+                {#                $("#save").css("background", "#CCCCCC");#}
+                var data = new FormData($('#dataform')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "{{basepath}}applymanager/save",
+                    data: data,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data == '0') {
+                            parent.layer.msg('添加成功');
+                            {#                            setTimeout("location.href='/applymanager/machine_register?vcode={{ vcode }}';", 1000);#}
+                            setTimeout("parent.location.reload();", 1000);
+                        } else {
+                            parent.layer.msg('添加失败');
+                        }
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+        });
+    });
+
+    function be_ewm() {
+        var objSex = document.getElementById("Sex2");
+        var gender = objSex.options[objSex.selectedIndex].value;
+
+        var objS = document.getElementById("pid");
+        var value1 = objS.options[objS.selectedIndex].value;
+
+
+        var uname = $('#NameA').val();
+        var cardno = $('#cardno').val();
+        var Sex2 = $('#Sex2').val();
+        var Born2 = $('#Born2').val();
+        var Address = $('#Address').val();
+        var board = $('#board').val();
+        var mob = $('#mob').val();
+        var shiyou = $('#shiyou').val();
+        var testy = $('#testy').val();
+
+        var sqlx = ""
+        var dw = $("#danwei").val();
+        if (value1 == 1) {
+            sqlx = "登轮许可证"
+        } else if (value1 == 2) {
+            sqlx = "口岸限定区域许可证"
+        } else if (value1 == 3) {
+            sqlx = "口岸限定区域车辆通行证"
+            var cp = $("#carno").val();
+            $("#danwei").val(cp);
+            dw = $("#danwei").val();
+        }
+
+        var sum = sqlx + '||' + uname + '||' + gender + '||' + cardno + '||' + Born2 + '||' + Address + '||' + dw + '||' + board + '||' + mob + '||' + shiyou + '||' + testy;
+        var text = toUtf8(sum)
+        $("#qrcode").qrcode({
+            render: 'canvas',
+            width: 200, //宽度
+            height: 200, //高度
+            text: text,//任意内容
+            {#    src: "/static/ewm.png"#}
+        });
+
+        var canvas = $('#qrcode').find("canvas").get(0);
+        try {//解决IE转base64时缓存不足，canvas转blob下载
+            var blob = canvas.msToBlob();
+            navigator.msSaveBlob(blob, 'qrcode.jpg');
+        } catch (e) {//如果为其他浏览器，使用base64转码下载
+            var url = canvas.toDataURL('image/jpeg');
+            {#                console.log(url);#}
+            {#                $("#img").attr('src', url)#}
+        }
+
+        $("#ewm").val(url);
+    }
+
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+
+
+</script>
+</html>

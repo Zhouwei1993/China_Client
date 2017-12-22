@@ -1,0 +1,112 @@
+.addpic
+{
+	float: left;
+	width: 25%;
+	position: relative;
+	text-align: center;
+
+}
+img
+{
+	width: 100%;
+}
+.addpic img
+{
+	margin: 20%;
+	width: 60%;
+}
+.view
+{
+    overflow:auto;
+    background-color:white;
+}
+.preview img{
+	margin: 5%;
+	width: 90%;
+}
+.file_upload
+{
+	position: absolute;
+	top:20%;
+	right: 20%;
+	width: 60%;
+	height: 60%;
+	opacity: 0;
+}
+.preview
+{
+    float: left;
+    width: 25%;
+    position: relative;
+}
+.redx
+{
+    border-radius: 50%;
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    font-size: 10px;
+    color: white;
+    line-height: 20px;
+    text-align: center;
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+.submitpic
+{
+    display:none;
+}
+.mui-content-padded
+{
+    clear:both;
+    overflow:auto;
+}
+.file{
+    clear:both;
+    overflow:auto;
+    margin-top:10px;
+}
+.file input
+{
+    float:left;
+    width:80%;
+}
+.file .removefile
+{
+    float:left;
+    width:20%;
+    border-radius: 50%;
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    font-size: 10px;
+    color: white;
+    line-height: 20px;
+    text-align: center;
+    margin-top:5px;
+}
+input[type='radio']
+{
+    zoom:1.5;
+    vertical-align: bottom;
+    margin-right:3px;
+}
+.radio
+{
+   display: inline-block;
+   width:24%;
+   margin-top:8px;
+   font-size:12px;
+}
+textarea
+{
+    height:200px;
+}
+select
+{
+   border:solid 1px #a8a8a8 !important;
+   border-radius: 5px;
+}

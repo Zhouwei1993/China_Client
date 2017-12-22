@@ -1,0 +1,107 @@
+body {
+	background:#5895CB url(../img/box_content_bg.jpg) repeat-x;
+	
+}
+
+.tip {
+	margin-top: 200px;
+	text-align: center;
+}
+.input
+{
+	color: #0077CC;
+	text-align: center;
+	text-decoration: underline;
+	margin-top: 50px;
+	cursor: pointer;
+}
+.content
+{
+	padding:10px 20px;
+	display: none;
+}
+.left
+{
+	float: left;
+	width: 65%;
+}
+.right
+{
+	float: left;
+	width: 35%;
+}
+.item
+{
+	width: 100%;
+	clear: both;
+	height: 38px;
+}
+#carnumber
+{
+	display: none;
+}
+.name
+{
+	float: left;
+	width: 23%;
+	font-weight: bold;
+	line-height: 28px;
+	text-align: right;
+	margin-right: 2%;
+}
+.dialog
+{
+	float: left;
+	width: 75%;
+	height: 38px;
+}
+.dialog input
+{
+	width: 100%;
+	background-color: rgba(255,255,255,0);
+	border:solid 1px #0077CC;
+	height:23px;
+}
+.dialog select
+{
+	width: 100%;
+	background-color: rgba(255,255,255,0);
+	border:solid 1px #0077CC;
+	height:25px;
+}
+.photo
+{
+	margin-left: 30px;
+	background-color: #e1f1ff;
+	height: 126px;
+	width: 104px;
+	border:#006699 solid 2px;
+	text-align: center;
+}
+.photo img
+{
+	height: 100%;
+}
+.bottom
+{
+	clear: both;
+	text-align: center;
+}
+.bottom a
+{
+	width: 130px;
+	height: 40px;
+	background:url(../img/btn_bg.png);
+	color: #fff;
+	line-height: 36px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 700;
+	margin-top: 6px;
+	border: 0;
+	cursor: pointer;
+}
+.bottom a:hover
+{
+	background:url(../img/btn_bg.png) 0 -39px
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>角色编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+    <style>
+        .item
+        {
+            margin-left:100px;
+            margin-bottom:10px;
+        }
+        .layui-anim
+        {
+            z-index:1000 !important;
+        }
+        #editor
+        {
+            height:350px;
+        }
+        .star
+        {
+            color:red;
+            margin-right:5px;
+        }
+    </style>
+</head>
+<body>
+   <div class="admin-main">
+	<form class="layui-form" method="post" action="/rolemanager/save" enctype="multipart/form-data">
+         <input type="text" name="id" hidden="hidden" value="{{user.id}}">
+        <div class="layui-form-item">
+           <label class="layui-form-label">角色名：</label>
+			<div class="layui-input-block">
+				<input type="text" name="name" placeholder="" autocomplete="off" class="layui-input" lay-verify="required" value="{{user.name}}">
+			</div>
+		</div>
+           <div class="layui-form-item">
+           <label class="layui-form-label">备注</label>
+			<div class="layui-input-block">
+				<input type="text" name="remark" placeholder="" autocomplete="off"  class="layui-input"  value="{{user.remark}}">
+			</div>
+		</div>
+        <div class="layui-form-item" style="margin-right:10px;float:right">
+        <a  style="margin-right:30px;">
+        <button class="layui-btn" type="submit" lay-submit="">保存</button>
+        </a>
+        <a onclick="history.go(-1)">
+            <button class="layui-btn layui-btn-normal">返回</button>
+        </a>
+        </div>
+	</form>
+</div>
+</body>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+
+<script>
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+	  var form = layui.form(),
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate;
+	});
+</script>
+
+</html>

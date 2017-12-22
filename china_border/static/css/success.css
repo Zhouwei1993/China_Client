@@ -1,0 +1,53 @@
+body
+{
+	background-color: white;
+}
+.foot
+{
+	position: fixed;
+	z-index: 100;
+	width: 100%;
+	padding: 5px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #e7e7e7;
+	color: #727171;
+}
+.icon{
+	color: #727171;
+}
+.tel
+{
+	float: right;
+	margin-top:3px;
+}
+.number
+{
+	color: #4085ca;
+}
+.pic
+{
+	text-align: center;
+	width: 100%;
+	padding: 20px;
+	margin-top: 100px;
+}
+.text
+{
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+}
+.tip
+{
+	margin-top: 30px;
+	text-align: center;
+}
+.footleft
+{
+	float: left;
+	width: 50%;
+	white-space:nowrap;
+	overflow:hidden; 
+	text-overflow:ellipsis;
+}

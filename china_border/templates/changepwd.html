@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+	<link href="{{basepath}}static/css/admincss.css" rel="stylesheet" type="text/css" />
+	<link href="{{basepath}}static/css/popup.css" rel="stylesheet" type="text/css" media="screen" />
+	<!--[if lt IE 7]>
+	<script type="text/javascript" src="js/stopIE6.js"></script>
+	<script type="text/javascript" src="js/unitpngfix.js">
+	<![endif]-->
+
+	<script type="text/javascript">
+        $(function () {
+            var _h = $(window).height();
+            var h = (_h - 378) / 2;
+            $('#loginDIV').css("margin-top", h + "px");
+
+            $(".getLink").click(function () {
+                $('#formDiv').animate({ "margin-left": "-238px" }, 500);
+                $('#paneName').html("取密");
+            });
+
+            $(".loginLink").click(function () {
+                $('#formDiv').animate({ "margin-left": "0" }, 500);
+                $('#paneName').html("登录");
+            });
+        })
+	</script>
+	<style>
+		input{
+			outline:none;
+		}
+
+	</style>
+</head>
+<body>
+<form name="form1" method="post" action="admin.aspx" id="form1">
+	<div>
+		<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTEyNzM0NjM0MzZkZPPfS86hZFWRC2fAuOIlE2o0yAw2" />
+	</div>
+
+	<div>
+		<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="67467B03" />
+		<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWBwL+tJrwBgLF1bSzCQLVqbaWCwLi44eGDAKyzcaDDQLL19fABAKB9uaaAejuFYL7rgXQpR6aLM1rZ5+rQyC6" />
+	</div>
+	<div id="loginDIV">
+		<div class="left">
+			<img src="images/clear.gif" width="1" height="1">
+		</div>
+		<div class="right">
+			<h2 id="paneName">修改密码</h2>
+			<div style="width:240px; height:252px; margin-top:16px; overflow:hidden" id="formDiv">
+				<div id="loginform" name="loginform" method="post" class="form">
+					<p style="border:1px solid #eee;height: 45px;line-height: 45px;color: #333;margin-bottom: 10px;border-radius: 6px;">
+						<label for="" style="width:20%;float:left;height: 45px;background:#f3f8fc;line-height: 45px;text-align: center;font-size: 15px;">旧密码</label>
+						<input name="TxtUserName" type="text" id="oldpassword" class="input required" style="background:#f3f8fc;width: 80%;float: left;text-align: left;height: 45px;line-height: 45px;" />
+					</p>
+					<p style="border:1px solid #eee;height: 45px;line-height: 45px;border-radius: 6px;margin-bottom: 10px;">
+						<label for="" style="width:20%;float:left;height: 45px;color: #333;background:#f3f8fc;line-height: 45px;text-align: center;font-size: 15px;">新密码</label>
+						<input name="TxtPassWord" type="password" maxlength="32" id="newpassword" class="input required" style="background:#f3f8fc;width: 80%;text-align: left;float: left;height: 45px;line-height: 45px;" AUTOCOMPLETE="off" />
+					</p>
+					<p style="border:1px solid #eee;height: 45px;line-height: 45px;border-radius: 6px;margin-bottom: 10px;">
+						<label for="" style="width:35%;float:left;height: 45px;color: #333;background:#f3f8fc;line-height: 45px;text-align: center;font-size: 15px;">确认新密码</label>
+						<input name="TxtPassWord" type="password" maxlength="32" id="new2password" class="input required" style="background:#f3f8fc;width: 65%;text-align: left;float: left;height: 45px;line-height: 45px;" AUTOCOMPLETE="off" />
+					</p>
+					<p><input onclick="checklogin()"  name="BtnLogin" value="确认"  class="subBtn" /></p>
+				</div>
+
+			</div>
+
+		</div>
+		<br class="clearfix">
+	</div>
+</form>
+
+
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+<script>
+    function load()
+    {
+        var height=($("#bg").height()-$("#panel").height())/2;
+        $("#panel").css("margin-top",height);
+    }
+    function checklogin() {
+        var _data = {};
+        _data.oldpassword = $("#oldpassword").val();
+        _data.newpassword = $("#newpassword").val();
+        _data.new2password = $("#new2password").val();
+        console.log(_data);
+        $.ajax({
+            type: "POST",
+            url: "{{basepath}}manager/changepwdpost",
+            data: _data,
+            dataType: "json",
+            success: function (data) {
+                if(data[0]['state']=="200"){
+                    alert("密码修改成功，请重新登录！");
+                    location.href = '{{basepath}}manager/login';
+                }
+                else {
+                    alert(data[0]['msg']);
+                }
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+	#tree
+		{
+			position: absolute;
+			left:0px;
+			top: 10px;
+			width:230px;
+			border:solid 1px #a8a8a8;
+			min-height:300px;
+			border-radius:5px;
+		}
+		.right
+		{
+			margin-left:260px;
+		}
+		.item
+		{
+			position: relative;
+			margin: 15px;
+		}
+		h1
+		{
+			font-size:30px;
+			font-weight:bold;
+			margin-top:40px;
+		}
+		.layui-input-block
+		{
+			width:20%;
+			float:left;
+			margin-left:0px;
+		    margin-left:20px;
+		}
+		.layui-form-label
+		{
+			text-align:left;
+		}
+		.btn1
+		{
+			float:right;
+		}
+		.btn2
+		{
+			float:left;
+		}
+		table
+		{
+			float:right;
+			width:20%;
+			font-size:20px;
+		}
+		table,tr,td
+		{
+			border:solid 1px black;
+		}
+		td
+		{
+			min-width:100px;
+			text-align:center;
+			padding:10px 0px;
+		}
+		.tag
+		{
+			float:left;
+			width:40%;
+			font-size:20px;
+			line-height:60px;
+		}
+		.boxitem
+		{
+			overflow:auto;
+			margin-bottom:20px;
+		}
+		.line1
+		{
+			border:solid 2px black;
+			width:100%;
+		}
+		#content
+		{
+			font-size:20px;
+			margin-top:20px;
+			line-height:40px;
+		}
+		#content p
+		{
+			text-indent:2em;
+		}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/global.css" media="all">
+    <link rel="stylesheet" href="{{basepath}}static/layui/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{basepath}}static/layui/css/table.css" />
+    <style>
+        .item
+        {
+            margin-left:100px;
+            margin-bottom:10px;
+        }
+        .layui-anim
+        {
+            z-index:1000 !important;
+        }
+        #editor
+        {
+            height:350px;
+        }
+        .star
+        {
+            color:red;
+            margin-right:5px;
+        }
+    </style>
+</head>
+<body>
+<div class="admin-main">
+    <form id="dataform" class="layui-form" method="post" action="" enctype="multipart/form-data">
+    {% for u in uinfo %}
+        <input name="id" value="{{ u.id }}" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="star">*</span>用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" value="{{ u.name }}" placeholder="请输入用户名" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="star">*</span>密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="pwd" value="{{ u.password }}" placeholder="请输入密码" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">所属公司</label>
+            <div class="layui-input-block">
+                <select id="com" name="com">
+                    <option value=""></option>
+                    {%for item in companies%}
+                        {% if  item.id==u.companyid%}
+                            <option value="{{item.id}}" selected>{{item.name}}</option>
+                        {% else %}
+                            <option value="{{item.id}}">{{item.name}}</option>
+                        {% endif %}
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <a  style="margin-right:30px;">
+                <a class="layui-btn" lay-submit  lay-filter="formDemo">保存</a>
+            </a>
+        </div>
+    {% endfor %}
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="{{basepath}}static/layui/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="{{basepath}}static/mui/js/jquery-1.8.0.min.js"></script>
+<script>
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+
+        form.on('submit(formDemo)', function(data){
+            var data = new FormData($('#dataform')[0]);
+            $.ajax({
+                type: "POST",
+                url: "{{basepath}}countmanager/save",
+                data:data,
+                async:false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if(data=='0'){
+                        parent.layer.msg('修改成功');
+                        setTimeout("parent.location.reload();",500);
+                    }else {
+                        parent.layer.msg('修改失败');
+                    }
+                    parent.layer.close(this);
+
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    });
+</script>
+</html>
